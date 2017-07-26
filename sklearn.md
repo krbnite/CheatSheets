@@ -1,5 +1,10 @@
 
+* [Training, Validation, and Test Sets](#datasplits)
+* [Preprocessing](#preprocessing)
 
+
+
+<a name="datasplits"></a>
 ## Training, Validation, and Test Sets
 [train_test_split](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)
 ```python
@@ -7,7 +12,7 @@ from sklearn.model_selection import train_test_split
 x_trn, x_other, y_trn, y_other = train_test_split(x, y, train_size=0.7, random_state=0)
 x_val, x_tst, y_val, y_tst = train_test_split(x_other, y_other, test_size=0.33, random_state=1)
 ```
-
+<a name="preprocessing"></a>
 ## Preprocessing
 For many machine learning models, various preprocessing techniques not only help
 improve efficiency, but often are important for ensuring meaningful results.
