@@ -56,20 +56,72 @@ Model evaluation is covered in the next section.
 
 <a name="models_supervised"></a>
 ## Supervised Learning
+
 <a name="models_linreg"></a>
 ### Linear Regression
+[Function Documentation](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html)
+```python
+from skearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(xx_trn, y_tr)
+y_pred = model.predict(xx_val)
+```
+
 <a name="models_logreg"></a>
 ### Logistic Regression
+[Function Documentation](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+```python
+from skearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(xx_trn, y_tr)
+y_pred = model.predict(xx_val)
+```
+
 <a name="models_svm"></a>
 ### Support Vector Machines
+[Documentation](http://scikit-learn.org/stable/modules/svm.html)
+```python
+from skearn.svm import SVC
+model = SVC(kernel='linear') # other kernels: polynomial, rbf, sigmoid
+model.fit(xx_trn, y_tr)
+y_pred = model.predict(xx_val)
+```
+
 <a name="models_nbayes"></a>
 ### Naive Bayes
+```python
+from skearn.naive_bayes import GaussianNB
+model = GaussianNB()
+model.fit(xx_trn, y_tr)
+y_pred = model.predict(xx_val)
+```
+
 <a name="models_knn"></a>
 ### kNN
+```python
+from skearn.neighbors import KNeighborsClassifier
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(xx_trn, y_tr)
+y_pred = model.predict(xx_val)
+```
+
 <a name="models_unsupervised"></a>
 ## Unsupervised Learning
+
 <a name="models_pca"></a>
 ### PCA
+```python
+from skearn.decomposition import PCA
+model = PCA(n_components=0.95)
+model.fit(xx_trn, y_tr)
+#y_pred = model.predict(xx_val)
+```
+
 <a name="models_kmeans"></a>
 ### k-Means Clustering
-
+```python
+from skearn.cluster import KMeans
+model = KMeans(n_clusters=3, random_state=1)
+model.fit(xx_trn, y_tr)
+#y_pred = model.predict(xx_val)
+```
