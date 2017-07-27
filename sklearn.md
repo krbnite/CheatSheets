@@ -105,6 +105,36 @@ model.fit(xx_trn, y_tr)
 y_pred = model.predict(xx_val)
 ```
 
+<a name="models_dt"></a>
+### Decision Tree
+```python
+from skearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier(criterion='entropy', max_depth=10, random_state=0)
+model.fit(x_trn, y_tr)  # Vars do not have to be normalized/standardized for DTs!
+y_pred = model.predict(x_val)
+```
+
+<a name="models_gb"></a>
+### Gradient Boosting
+```python
+from skearn.ensemble import GradientBoostinClassifier
+model = GradientBoostinClassifier(max_depth=5, n_estimators=1000, 
+  subsample=0.5, random_state=0, learning_rate=0.001)
+model.fit(x_trn, y_tr)  # Vars do not have to be normalized/standardized for DTs!
+y_pred = model.predict(x_val)
+```
+
+<a name="models_gb"></a>
+### Random Forest (Bagged Decision Trees)
+```python
+from skearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier(n_estimators=1000, criterion='entropy', 
+   n_jobs=4, max_depth=10)
+model.fit(x_trn, y_tr)  # Vars do not have to be normalized/standardized for DTs!
+y_pred = model.predict(x_val)
+```
+
+
 <a name="models_unsupervised"></a>
 ## Unsupervised Learning
 
@@ -124,4 +154,45 @@ from skearn.cluster import KMeans
 model = KMeans(n_clusters=3, random_state=1)
 model.fit(xx_trn, y_tr)
 #y_pred = model.predict(xx_val)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------
+## Additional Notes
+
+### Decision Tree Boosting
+This is basically what is happening...
+```python
+from skearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier(max_depth=2, random_state=0)
+N_estimators = 3
+for i in range(N_estimators):
+  model.fit(x_trn, y_trn)  
+  y_res = y_trn - model.predict(x_trn)
+y_pred = y_res
+```
+
+### Cross Validation and Grid Search
+* [StratifiedKFold](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html)
+* [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html)
+```python
+#from sklearn.cross_validation import StratifiedKFold
+from sklearn.grid_search import GridSearchCV
+###
+#skf = StratifiedKFold(n_splits=2)
+model_type = GradientBoostingClassifier(n_estimators=500, learning_rate=.01)
+params = {"max_depth": [3, 5, 7]}
+###
+model = GridSearchCV(model_type, param_grid=params, verbose=2)
+model.fit(x_trn, y_trn)
 ```
