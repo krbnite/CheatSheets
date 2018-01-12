@@ -53,8 +53,6 @@ qry("SELECT * from #temp LIMIT 10;")
 The easiest work around is to just switch to using the "temporary table" method:
 ```python
 ex("CREATE TEMPORARY TABLE temp1 as (SELECT someStuff FROM someTable);")
-
-# This will throw an error saying that no such table exists...
 qry("SELECT * from temp1 LIMIT 10;")
 ```
 
@@ -66,8 +64,6 @@ interesting, but maybe not optimal.  For documentation's sake, here it is.
 
 ```python
 ex("CREATE {hash}temp2 as (SELECT someStuff FROM someTable);".format(hash='#')
-
-# This will throw an error saying that no such table exists...
 qry("SELECT * from #temp2 LIMIT 10;")
 ```
 
