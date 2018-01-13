@@ -35,3 +35,25 @@ ex("""
 """)
 ```
 
+## Look at Schema Search Path
+```sql
+show search_path
+```
+
+## Redefine the Schema Search Path
+```sql
+BEGIN;
+SET search_path to '$user', public, otherSchema, etcSchema;
+COMMIT;
+```
+Actually, I've found that the BEGIN statement isn't necessary... However, COMMIT is.
+
+## Look at properties of a specific table
+```sql
+SELECT * 
+FROM pg_table_def 
+  WHERE tablename = mySpecialTable
+    AND schemaname = someSpecificSchema
+```
+
+
