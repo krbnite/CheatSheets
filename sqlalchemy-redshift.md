@@ -56,4 +56,15 @@ FROM pg_table_def
     AND schemaname = someSpecificSchema
 ```
 
+## Delete stuff from a table that meet a condition
+```sql
+DELETE table WHERE <condition>;
+```
+
+## Insert values from a staging table into production table
+```sql
+INSERT INTO prod_table (
+  SELECT * FROM staging_table
+);
+```
 
