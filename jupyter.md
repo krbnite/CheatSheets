@@ -39,6 +39,18 @@ Mode.  If you are in Edit Mode, these commands work by first escaping into Comma
 ## Mathematical Typesetting
 Bascially: LaTex in a MarkDown cell.  
 
-For a set of equations, you must specify an environment like `gather` or `align`, but you can also
-do inline equations like usual (e.g., \$\dot{x}=f(x)\$ --> $\dot{x}=f(x)$).
+* inline math: $\dot{x}=f(x)$
+* math section: $$\dot{x}=f(x)$$
+* environments: \begin{envName} ... \end{endName}
+  - gather
+  - align
+
+For a set of equations, you must specify an environment like `gather` or `align`,
+
+Question: Why doesn't GitHub's MarkDown have LaTeX functionality?  So annoying... Basically, you 
+have to use a service to generate images (e.g., https://www.codecogs.com/latex/eqneditor.php).
+
+
+
+
 
