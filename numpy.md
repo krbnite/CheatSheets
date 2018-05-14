@@ -23,6 +23,7 @@
     * ex: (5,5,2) is the tuple representation of 5 5x2 arrays
 * Size of array: `myArr.size`
 * Shape of an array: `myArr.shape`
+* Number of array dimensions (rank): `myArr.ndim`
 * Data type of array: `myArr.dtype`
 * Set array data type: e.g., `np.ones((k,m), dtype='int32')`
 * Array Indexing:  
@@ -42,3 +43,30 @@
   - False Subset: `myArr[~mask]`
   - NOTE: returned subsets are 1D sequences
 * Broadcasting
+  - Some of it is "what you expect", e.g., "broadcasting a scalar over a vector" is just scalar multiplication
+  - For other things, it generalizes this: a scalar can broadcast over a 2D array b/c it can be considered a 1x1 2D array
+  that fits an integer amount of times along the rows and cols
+    * you have to play with it a bit for it all to make sense
+    * basically, a (1,6) and (1,3) array are incompatible, even though one might think you can fit the (1,3) array twice into the (1,6) array)
+    * that said, (1,6) and (3,1) work together: in this case we get a (3,6) array where the rows are the (1,6) array multiplied by the components of the (3,1) array
+  - Broadcasting a function, like sum(), over an axis is simply choosing a "collapse axis"
+    * simplest to think of 2D array here: want to sum along the columns, leaving a row vector; or sum along rows, leaving a col vector?
+* Structured arrays
+  - arrays of structs
+  - first you define your data type: `new_data_type = [('name','s6'),('age','f8'),('rank','i8')]`
+  - then you create an array w/ this dtype: `ppl = np.zeros(3, dtype=new_data_type)`
+  - populate it: e.g., `ppl[0]=('Jeff',56,4); ppl[1]=('Tom',61,5); ppl[2]=('Jimmy',23,2)`
+  - this is kind of like building your own Pandas DataFrames
+    * `ppl['name']`
+    * `ppl['age']`
+    * `ppl[['name','rank']]`
+* Multi-Dimensional Structured Arrays
+  - what is important to understand is that the data type you create takes the place of `int32` or `float64`, etc
+  - this means that you can use that data type in any shaped array (if you have a use case!)
+* Record Arrays
+  - record arrays are structured arrays with just a touch more functionality
+  - in code, the record array is the result of a thin wrapper over structured arrays
+  - basically, the functionality given is the ability to access attributes using the "dot method" in addition to the "index method"
+    * `ppl['name']`
+    * `ppl.name`
+
