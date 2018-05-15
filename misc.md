@@ -202,3 +202,63 @@ At least some of them can!  So there are ARI(p,d) models... But we already showe
 as well more generally think of ARMA(p,q) models, so no reason to exclude the MA componen here --- and so
 we have ARIMA(p,d,q) models.
 
+## Model Identification/Validation
+[Box-Jenkins method](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins_method):
+```
+1. Assess if time series if just white noise:
+  -- if yes, do not model
+2. Test if time series is stationary
+  -- if not, then difference the time series until it is; in practice, go with the differencing 
+  order that does this best (likely will only make series approximately stationary)
+  -- if it is too difficult to make stationary, maybe look into state-space models
+3. Estimate ARIMA(p,d0,q) model parameters (where d0 is known from step 2), e.g., by
+   plotting the ACF and PACF.  (Automated procedures include: Yule-Walker procedure, method of moments, 
+   maximum likelihood method, ... There are no closed form estimates, so one must rely
+   on numerical approximations (most statistical packages do all of this for you).
+4. Test the model and similar models, finding best model... Basically, choose a criterion (AIC, BIC, etc)
+   and choose the model that minimizes this criterion.  Also: plot the residual ACF (residuals are whatever is
+   left of your data after removing the fitted model); the residuals should approximate white noise, which 
+   is observed if most residuals lie within +/- 1.96/sqrt(N), where N is number of observations.
+....
+```
+
+Autocorrelation function (ACF):
+```
+rho[k] = corr(y[i],y[i-k]) = Cov(y[i],y[i-k]) / (sqrt(Var(y[i])) * sqrt(Var(y[i-k])))
+```
+
+Partial Autocorrelation Function (PACF): the degree of association between y\[i\] and y\[i-k\] when the
+effects at other lags (1,2,...,k-1) are removed.
+
+Correlogram: plot of sample ACF versus lags. (In my unpublished paper on remotely sensing the solar wind,
+I use a "dynamic correlogram" to provide evidence for my model.)
+
+Basically, theoretical ACFs and PACFs exist for various ARIMA models, which allows one to 
+use the sample ACF and sample PACF of a time series to estimate an appropriate ARIMA(p,d,q) model.
+
+The Broadstrokes:
+* AR(p): ACF decays to zero; PACF has step-like cutoff to zero
+* MA(q): ACF has step-like cutoff to zero;  PACF decays to zero
+* ARMA(p,q): ACF decays to zero; PACF decays to zero
+
+
+### Buyer Beware
+Before you can even assess an ARMA model, there is usually a lot of preprocessing that is 
+done.  Texts always discuss differencing b/c it gives us the ARIMA model and is well understood... But
+in practice, you will likely do more than simply difference a model.
+
+For example, you might detrend first by fitting and subtracting a polynomial (e.g., linear or cubic), or
+you might apply a high-pass ("bass cut") filter (e.g., in my past work, I was interested in signals with periods between
+a few minutes to about an hour, but the 1-second sampled time series spanning months had much lower periodicities
+that were no better than noise for my purposes).  You might also apply a low-pass filter to get rid of 
+high-frequency noise, e.g., a smoothing filter (in my past work, using a moving average was considered 
+a bit quick-and-dirty in that people who use it are not often thinking about the effects it has on the 
+frequency domain...but that said, it's probably fine for something! :-p).  Another preprocessing step
+one might take before estimating an ARMA model is outlier removal (e.g., by defining a floor/ceiling 
+clipping range based like \[0.5 * 1st percentile, 2 * 99th percentile\]).  
+
+----------------------------------------------------
+
+* endogeneous variable: a dependent var
+* exogeneous variable: a predictor var 
+
